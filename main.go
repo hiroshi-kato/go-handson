@@ -17,8 +17,12 @@ func main() {
 	fmt.Print("Hello, world!")
 	// 改行あり
 	fmt.Println("Hello, world!")
+	// カンマ区切りで複数の値を出力する。
+	// 各値間にスペースが入る
+	fmt.Println("A", 100, true)
 
 	// あたりはずれ
+	// 現在日時をキーにする
 	t := time.Now().Unix()
 	rand.Seed(t)
 	u := rand.Intn(10)
@@ -33,19 +37,31 @@ func main() {
 	// レア度を作ってみる
 	switch u {
 	case 0:
-		fmt.Println(("u is 0"))
+		fmt.Println("u is 0")
 	case 1, 2:
-		fmt.Println(("u is 1 or 2"))
+		fmt.Println("u is 1 or 2")
 	}
 
 	// レア度ごとに出る確率を買えてみよう
 	switch {
 	case u == 1:
-		fmt.Println(("uis 1"))
+		fmt.Println("u is 1")
 	case u == 2:
-		fmt.Println(("uis 2"))
+		fmt.Println("u is 2")
 	default:
-		fmt.Println(("default"))
+		fmt.Println("default")
 	}
 
+	for i := 0; i < 10; i++ {
+		fmt.Println(i)
+	}
+
+	for i, v := range []int{1, 2, 3} {
+		fmt.Println(i, v)
+	}
+
+	var price int
+	fmt.Print("値段")
+	fmt.Scanln(&price)
+	fmt.Printf("%d円\n", price)
 }
