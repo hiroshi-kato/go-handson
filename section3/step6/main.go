@@ -27,6 +27,7 @@ type card struct {
 }
 
 func (c *card) String() string {
+	// メソッド
 	// TODO: レア度:名前のように文字列を作る
 	// 例："SR:ドラゴン"
 	return fmt.Sprintf("%s:%s", c.rarity, c.name)
@@ -39,6 +40,7 @@ type player struct {
 
 // プレイヤーが行えるガチャの回数
 func (p *player) drawableNum() int {
+	// メソッド
 	// TODO: ガチャが行える回数を返す
 	// ガチャ券は1枚で1回、コインは10枚で1回ガチャが行える
 	return p.tickets + p.coin/10
