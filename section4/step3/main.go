@@ -6,20 +6,20 @@ import (
 	"fmt"
 
 	// TODO: インポートパスを公開したものに変更する
-	"github.com/gohandson/gacha-ja/gacha"
+	"github.com/hiroshi-kato/go-handson/gotcha"
 )
 
 func main() {
-	p := gacha.NewPlayer(10, 100)
+	p := gotcha.NewPlayer(10, 100)
 
 	n := inputN(p)
-	results, summary := gacha.DrawN(p, n)
+	results, summary := gotcha.DrawN(p, n)
 
 	fmt.Println(results)
 	fmt.Println(summary)
 }
 
-func inputN(p *gacha.Player) int {
+func inputN(p *gotcha.Player) int {
 
 	max := p.DrawableNum()
 	fmt.Printf("ガチャを引く回数を入力してください（最大:%d回）\n", max)
