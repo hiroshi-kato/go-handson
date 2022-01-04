@@ -11,14 +11,12 @@ import (
 	"github.com/hiroshi-kato/gotcha-ja"
 )
 
-var (
-	flagCoin int
-)
+var flagCoin = flag.Int("coin", 0, "コインの初期枚数")
 
 func init() {
 	// TODO: flagCoinに"coin"という名前のフラグを設定する
 	// デフォルト値は0で説明は"コインの初期枚数"
-	flag.IntVar(&flagCoin, "coin", 0, "コインの初期枚数")
+	// flag.IntVar(&flagCoin, "coin", 0, "コインの初期枚数")
 }
 
 func main() {
@@ -26,7 +24,7 @@ func main() {
 	flag.Parse()
 
 	tickets := initialTickets()
-	p := gotcha.NewPlayer(tickets, flagCoin)
+	p := gotcha.NewPlayer(tickets, *flagCoin)
 
 	n := inputN(p)
 	results, summary := gotcha.DrawN(p, n)

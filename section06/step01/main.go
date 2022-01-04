@@ -3,13 +3,12 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"os"
 	"strconv"
 
-	"github.com/gohandson/gacha-ja/gacha"
+	"github.com/hiroshi-kato/go-handson/section6/step01/gacha"
 )
 
 var (
@@ -32,12 +31,16 @@ func run() error {
 
 	tickets, err := initialTickets()
 	// TODO: エラーが発生した場合はエラーをそのまま返す
+	if err != nil {
+		return err
+	}
 
 	p := gacha.NewPlayer(tickets, flagCoin)
 
 	n := inputN(p)
 	// TODO: gacha.DrawN関数を呼び出す
 	// 戻り値はresults, summary, errに代入する
+	results, summary, err := gacha.DrawN(p, n)
 
 	if err != nil {
 		return err
@@ -56,8 +59,10 @@ func run() error {
 
 func initialTickets() (int, error) {
 	if flag.NArg() == 0 {
+		// https://pkg.go.dev/fmt#Errorf
 		// TODO: 0とエラーを返す
 		// エラーは"ガチャチケットの枚数を入力してください"
+		return 0, fmt.Errorf("ガチャチケットの枚数を入力してください")
 	}
 
 	num, err := strconv.Atoi(flag.Arg(0))
@@ -66,6 +71,7 @@ func initialTickets() (int, error) {
 	}
 
 	// TODO: numとエラーがないことを表すnilを返す
+	return num, nil
 }
 
 func inputN(p *gacha.Player) int {
@@ -86,15 +92,15 @@ func inputN(p *gacha.Player) int {
 	return n
 }
 
-func saveResults(results []*gacha.Card) (rerr error) {
+func saveResults(results []*gacha.Card) (err error) {
 	f, err := os.Create("results.txt")
 	if err != nil {
 		return err
 	}
 
 	defer func() {
-		if err := f.Close(); err != nil && rerr == nil {
-			rerr = err
+		if err := f.Close(); err != nil && err == nil {
+			err = err
 		}
 	}()
 
