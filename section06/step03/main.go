@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/gohandson/gacha-ja/gacha"
+	"go.uber.org/multierr"
 )
 
 var (
@@ -30,9 +31,11 @@ func main() {
 func run() error {
 	flag.Parse()
 
+	var rerr error
+
 	tickets, err := initialTickets()
 	if err != nil {
-		return err
+		rerr = multierr.Append(rerr, err)
 	}
 	p := gacha.NewPlayer(tickets, flagCoin)
 	play := gacha.NewPlay(p)
@@ -47,15 +50,19 @@ func run() error {
 	}
 
 	if err := play.Err(); err != nil {
-		return fmt.Errorf("ガチャを%d回引く:%w", n, err)
+		rerr = multierr.Append(rerr, fmt.Errorf("ガチャを%d回引く:%w", n, err))
 	}
 
 	if err := saveResults(play.Results()); err != nil {
-		return err
+		rerr = multierr.Append(rerr, err)
 	}
 
 	if err := saveSummary(play.Summary()); err != nil {
-		return err
+		rerr = multierr.Append(rerr, err)
+	}
+
+	for _, err := range multierr.Errors(rerr) {
+		fmt.Println(err)
 	}
 
 	return nil
