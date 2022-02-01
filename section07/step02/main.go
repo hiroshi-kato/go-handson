@@ -26,10 +26,12 @@ func run() error {
 		if play.Draw() {
 			// TODO: レスポンスとして最後の結果を出力する
 			// 最後の結果はplay.Resultメソッドから取得できる
+			fmt.Fprintln(w, play.Result())
 		}
 
 		if err := play.Err(); err != nil {
 			// TODO: InternalServerErrorでエラーレスポンスを返す
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 
 			return
 		}
